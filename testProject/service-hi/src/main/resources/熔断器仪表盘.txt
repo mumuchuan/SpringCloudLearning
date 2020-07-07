@@ -1,0 +1,3 @@
+流：http://localhost:8762/actuator/hystrix.stream
+
+仪表盘 ：http://localhost:8762/hystrix 【http://localhost:8762/actuator/hystrix.stream,2000,miya】

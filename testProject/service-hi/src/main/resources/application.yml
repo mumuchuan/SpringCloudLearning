@@ -1,12 +1,12 @@
-server:
-  port: 8762
-
-spring:
-  application:
-    name: service-hi
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-#      defaultZone: http://peer1:8761/eureka/ #高可用的服务注册中心
+#server:
+#  port: 8762
+#
+#spring:
+#  application:
+#    name: service-hi
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+##      defaultZone: http://peer1:8761/eureka/ #高可用的服务注册中心
