@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,13 +28,22 @@ public class ServiceHiApplication {
     String port;
 
     @RequestMapping("/hi")
-    @HystrixCommand(fallbackMethod = "hiError")
+//    @HystrixCommand(fallbackMethod = "hiError")
     public String home(@RequestParam(value = "name", defaultValue = "forezp") String name) {
         return "hi " + name + " ,i am from port:" + port;
     }
 
     public String hiError(String name) {
         return "hi,"+name+",sorry,error!";
+    }
+
+    /**
+     * 发生熔断调用的请求
+     * @return
+     */
+    @RequestMapping(value = "/fallback", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String fallback() {
+        return ("error.service-hi");
     }
 
 }

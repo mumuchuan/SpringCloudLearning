@@ -1,0 +1,61 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: sc-gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lowerCaseServiceId: true
+      routes:
+        - id: service-hi
+          uri: lb://SERVICE-HI
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+            - RequestTime=true
+        - id: service-hello
+          uri: lb://SERVICE-HELLO
+          predicates:
+            - Path=/demo2/**
+          filters:
+            - StripPrefix=1
+            - RequestTime=true
+        - id: sc-gateway-server
+          uri: lb://SC-GATEWAY-SERVER
+          predicates:
+            - Path=/demo3/**
+          filters:
+            - StripPrefix=1
+            - RequestTime=true
+      # 公共熔断设置
+      default-filters:
+        - name: Hystrix
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/fallback
+
+# 公共熔断设置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+
+
+

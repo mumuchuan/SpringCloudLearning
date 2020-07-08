@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -29,6 +30,19 @@ public class ServiceHelloApplication {
     @HystrixCommand(fallbackMethod = "helloError")
     public String home(@RequestParam(value = "name", defaultValue = "zoppon") String name) {
         return "hello " + name + " ,i am from port:" + port;
+    }
+
+    @RequestMapping(value = "hello/{time}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getHi(@PathVariable("time") long time){
+        try {
+            Long startTime = new Date().getTime();
+            System.out.println("----睡眠开始---" + startTime);
+            Thread.sleep(time);
+            System.out.println("----睡眠结束---duration:" + (new Date().getTime() - startTime) + "ms");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return port + " get ok.";
     }
 
     public String helloError(String name) {
