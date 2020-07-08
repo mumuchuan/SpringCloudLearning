@@ -18,4 +18,19 @@ public class ScFGatewayFirstSightApplication {
         return new RequestTimeGatewayFilterFactory();
     }
 
+    @Bean
+    public HostAddrKeyResolver hostAddrKeyResolver() {
+        return new HostAddrKeyResolver();
+    }
+
+    @Bean
+    public UriKeyResolver uriKeyResolver() {
+        return new UriKeyResolver();
+    }
+
+    @Bean
+    public UserKeyResolver userKeyResolver() {
+        return new UserKeyResolver();
+    }
+
 }

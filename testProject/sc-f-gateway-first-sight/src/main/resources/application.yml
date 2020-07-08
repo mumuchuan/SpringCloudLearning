@@ -32,12 +32,29 @@ spring:
           filters:
             - StripPrefix=1
             - RequestTime=true
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@hostAddrKeyResolver}'
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
       # 公共熔断设置
       default-filters:
         - name: Hystrix
           args:
             name: fallbackcmd
             fallbackUri: forward:/fallback
+#        以下是过滤器--没有敲，先写上备注【依赖redis】【注意：网上说在default-filters配置有坑，可以尝试在每个filters都配置一下】----验证过-----不行
+#        - name: RequestRateLimiter
+#          args:
+#            key-resolver: '#{@hostAddrKeyResolver}'
+#            redis-rate-limiter.replenishRate: 1
+#            redis-rate-limiter.burstCapacity: 5
+#  redis配置
+  redis:
+    host: 47.98.119.18
+    port: 9999
+    database: 0
+    password: 123456
 
 # 公共熔断设置
 hystrix:
