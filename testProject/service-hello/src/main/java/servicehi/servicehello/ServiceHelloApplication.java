@@ -32,6 +32,11 @@ public class ServiceHelloApplication {
         return "hello " + name + " ,i am from port:" + port;
     }
 
+    @RequestMapping("/hi")
+    public String hi(@RequestParam(value = "name", defaultValue = "forezp") String name) {
+        return "hi " + name + " ,i am from port:" + port;
+    }
+
     @RequestMapping(value = "hello/{time}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getHi(@PathVariable("time") long time){
         try {

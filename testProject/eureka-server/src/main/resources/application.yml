@@ -9,6 +9,7 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#      defaultZone: http://localhost8769:8769/eureka/ #注册中心集群
 
 spring:
   application:
